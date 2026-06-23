@@ -3,6 +3,9 @@
 
 사용자가 `except GTMError:` 한 줄로 잡을 수 있도록 베이스 클래스 통일.
 """
+from __future__ import annotations
+
+from typing import Optional
 
 
 class GTMError(Exception):
@@ -16,7 +19,7 @@ class GitHubAPIError(GTMError):
 class RateLimitError(GitHubAPIError):
     """GitHub API rate limit 초과."""
 
-    def __init__(self, reset_at: str | None = None):
+    def __init__(self, reset_at: Optional[str] = None):
         self.reset_at = reset_at
         msg = f"GitHub API rate limit 초과 (reset: {reset_at})" if reset_at else "GitHub API rate limit 초과"
         super().__init__(msg)

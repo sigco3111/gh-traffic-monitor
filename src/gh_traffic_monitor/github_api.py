@@ -7,6 +7,8 @@ GitHub API 클라이언트 — stdlib only (urllib).
 """
 from __future__ import annotations
 
+from typing import Optional
+
 import json
 import os
 import subprocess
@@ -46,7 +48,7 @@ def get_gh_token() -> str:
     raise AuthError("GitHub 토큰을 찾을 수 없습니다. `gh auth login` 또는 GH_TOKEN 환경 변수 설정 필요.")
 
 
-def _api_get(path: str, token: str, params: dict | None = None) -> dict:
+def _api_get(path: str, token: str, params: Optional[dict] = None) -> dict:
     """GitHub API GET 요청 — JSON 응답."""
     url = f"{GITHUB_API_BASE}{path}"
     if params:

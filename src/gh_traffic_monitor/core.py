@@ -3,6 +3,8 @@
 """
 from __future__ import annotations
 
+from typing import Optional
+
 import sys
 import time
 from pathlib import Path
@@ -16,7 +18,7 @@ def run_collection(
     owner: str,
     log_dir: Path,
     *,
-    token: str | None = None,
+    token: Optional[str] = None,
     delay_seconds: float = 0.2,
 ) -> CollectionResult:
     """
