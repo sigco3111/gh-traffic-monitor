@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gh-traffic-monitor"
+version = "0.1.0"
+description = "📊 GitHub repo 트래픽을 매일 누적 CSV로 저장 — 14-day 롤링 윈도우의 한계를 넘어 평생 방문자/클론/포크 통계 생성"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "sigco3111" }]  # ⚠️ email 넣으면 PEP 621 위반
+keywords = ["github", "traffic", "analytics", "csv", "repolis", "portfolio"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = []  # stdlib only ✅
+
+[project.scripts]
+gh-traffic-monitor = "gh_traffic_monitor.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sigco3111/gh-traffic-monitor"
+Issues = "https://github.com/sigco3111/gh-traffic-monitor/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "ruff>=0.1.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"

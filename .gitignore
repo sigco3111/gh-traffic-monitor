@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+
+# 데이터 (사용자별)
+data/logs/*.csv
+!data/logs/.gitkeep
+
+# Editor
+.idea/
+.vscode/
+.DS_Store
+*.swp

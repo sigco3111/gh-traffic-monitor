@@ -1,0 +1,47 @@
+name: Daily traffic collection (example)
+
+# 이 workflow는 sigco3111/Repolis 같은 downstream consumer가 참고할 수 있도록
+# gh-traffic-monitor 자체에서 실행 예시로 제공합니다.
+# 실제 사용 시 별도 repo (예: sigco3111/repolis-data)에서 fork해서 쓰세요.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"  # 6시간마다 자동 실행
+  workflow_dispatch:        # 수동 트리거 (gh workflow run daily-collect.yml)
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # data/logs/ 커밋용
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -e .
+
+      - name: Run collection
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m gh_traffic_monitor \
+            --owner sigco3111 \
+            --log-dir ./data/logs \
+            collect \
+            --delay 0.3
+
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/logs/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: daily traffic snapshot $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push
